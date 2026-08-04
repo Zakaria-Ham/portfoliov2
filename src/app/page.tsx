@@ -1,69 +1,190 @@
-import Image from "next/image";
+"use client";
+import "./styles/App.css";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function Home() {
+/* ─── Fluid cursor ─── */
+function FluidCursor() {
+  const outerRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
+  const glowRef  = useRef<HTMLDivElement>(null);
+
+  const glowPos = useRef({
+    x: typeof window !== "undefined" ? window.innerWidth / 2 : 0,
+    y: typeof window !== "undefined" ? window.innerHeight / 2 : 0,
+  });
+  const mouse = useRef({
+    x: typeof window !== "undefined" ? window.innerWidth / 2 : 0,
+    y: typeof window !== "undefined" ? window.innerHeight / 2 : 0,
+  });
+  const rafId   = useRef<number>(0);
+
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      mouse.current = { x: e.clientX, y: e.clientY };
+      if (outerRef.current) {
+        outerRef.current.style.left = `${e.clientX}px`;
+        outerRef.current.style.top  = `${e.clientY}px`;
+      }
+      if (innerRef.current) {
+        innerRef.current.style.left = `${e.clientX}px`;
+        innerRef.current.style.top  = `${e.clientY}px`;
+      }
+    };
+
+    const loop = () => {
+      glowPos.current.x += (mouse.current.x - glowPos.current.x) * 0.05;
+      glowPos.current.y += (mouse.current.y - glowPos.current.y) * 0.05;
+      if (glowRef.current) {
+        glowRef.current.style.left = `${glowPos.current.x}px`;
+        glowRef.current.style.top  = `${glowPos.current.y}px`;
+      }
+      rafId.current = requestAnimationFrame(loop);
+    };
+
+    window.addEventListener("mousemove", onMove);
+    rafId.current = requestAnimationFrame(loop);
+
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      cancelAnimationFrame(rafId.current);
+    };
+  }, []);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <>
+      <div ref={glowRef}  className="cursor-glow"  />
+      <div ref={outerRef} className="cursor-outer" />
+      <div ref={innerRef} className="cursor-inner" />
+    </>
   );
+}
+
+/* ─── Card data — each card has its own route ─── */
+const CARDS = [
+  {
+    id:    "Dev-card",
+    tag:   "Code",
+    title: "Developer",
+    desc:  "Building interactive scalable products",
+    img:   "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&q=80",
+    alt:   "Code on screen",
+    route: "/Dev-repo",
+  },
+  {
+    id:    "Editing-card",
+    tag:   "Visual",
+    title: "Editor",
+    desc:  "Crafting stories through cuts",
+    img:   "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&q=80",
+    alt:   "Video editing timeline",
+    route: "/Editing-Timeline",
+  },
+  {
+    id:    "Design-card",
+    tag:   "Inspire",
+    title: "Designer",
+    desc:  "Shaping ideas into Creatives",
+    img:   "https://images.unsplash.com/photo-1618788372246-79faff0c3742?w=600&q=80",
+    alt:   "Design workspace",
+    route: "/Design-Board",
+  },
+];
+
+/* ─── Home view — landing + card selection ─── */
+function Home() {
+  const router = useRouter();
+  const [showCards, setShowCards] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+
+  useEffect(() => {
+    const saved = window.sessionStorage.getItem("portfolio-view");
+    if (saved === "cards") setShowCards(true);
+  }, []);
+
+  useEffect(() => {
+    if (!showCards) {
+      const timer = window.setTimeout(() => setIsClosing(false), 300);
+      return () => window.clearTimeout(timer);
+    }
+  }, [showCards]);
+
+  const handleExplore = () => {
+    setIsClosing(false);
+    setShowCards(true);
+    window.sessionStorage.setItem("portfolio-view", "cards");
+  };
+
+  const handleBack = () => {
+    setIsClosing(true);
+    window.sessionStorage.setItem("portfolio-view", "landing");
+    window.setTimeout(() => {
+      setShowCards(false);
+    }, 850);
+  };
+
+  const handleCardClick = (route: string) => {
+    window.sessionStorage.setItem("portfolio-view", "cards");
+    router.push(route);
+  };
+
+  return (
+    <>
+      <FluidCursor />
+
+      <div className={`home-scene ${showCards ? "cards-active" : ""} ${isClosing ? "cards-closing" : ""}`}>
+        <div className={`landing-layer ${showCards ? "is-blurred" : ""}`}>
+          <div className="landing-container page-enter">
+            <div className="Landing-background">
+              <div className="grid-lines" />
+              <div className="landing-content">
+                <h1>Zak's ShowRoom</h1>
+                <p className="subtitle">also known as RedLed.</p>
+                <button className="Experience-button" onClick={handleExplore}>
+                  Explore
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className={`cards-overlay ${showCards ? "visible" : ""}`}>
+          <div className="Cards-page page-enter">
+            <div className="Cards-container">
+              {CARDS.map((c) => (
+                <div
+                  className={`card ${isClosing ? "card-exit" : ""}`}
+                  id={c.id}
+                  key={c.id}
+                  onClick={() => handleCardClick(c.route)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === "Enter" && handleCardClick(c.route)}
+                >
+                  <span className="card-tag">{c.tag}</span>
+                  <div className="card-image">
+                    <img src={c.img} alt={c.alt} />
+                  </div>
+                  <div className="card-details">
+                    <h2>{c.title}</h2>
+                    <div className="card-accent-line" />
+                    <p>{c.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <nav className="back-nav">
+              <button className="back-button" onClick={handleBack}>
+                ← Back
+              </button>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default function App() {
+  return <Home />;
 }

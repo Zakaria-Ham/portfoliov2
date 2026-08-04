@@ -1,0 +1,159 @@
+/* ═══════════════════════════════════════════════════
+   Navbar.css — 3-variant sticky island navbar
+   dev: terminal island · editor: spinning border · design: glass
+═══════════════════════════════════════════════════ */
+
+/* ── Shared wrapper (fixed positioning) ── */
+.nb-fixed {
+  position: fixed;
+  top: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  animation: nb-drop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes nb-drop {
+  from { opacity: 0; transform: translateX(-50%) translateY(-20px) scale(0.9); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0)      scale(1); }
+}
+
+/* ── Shared inner island ── */
+.nb-island {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 100px;
+}
+
+.nb-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s, color 0.2s;
+  color: inherit;
+  flex-shrink: 0;
+}
+.nb-btn svg { display: block; pointer-events: none; }
+
+.nb-divider {
+  width: 1px;
+  height: 18px;
+  border-radius: 1px;
+  opacity: 0.25;
+  margin: 0 0.1rem;
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────
+   VARIANT: DEV  (terminal)
+───────────────────────────*/
+.nb-fixed--dev .nb-island {
+  background: #0f0f0f;
+  border: 1px solid #2a2a2a;
+  box-shadow: 0 0 0 1px rgba(74,222,128,0.08), 0 8px 32px rgba(0,0,0,0.8), 0 0 20px rgba(74,222,128,0.06);
+}
+.nb-fixed--dev .nb-divider { background: #4ade80; }
+.nb-fixed--dev .nb-btn     { color: #484f58; }
+.nb-fixed--dev .nb-btn:hover {
+  background: rgba(74,222,128,0.08);
+  color: #4ade80;
+  transform: scale(1.1);
+}
+.nb-fixed--dev .nb-btn--active {
+  background: rgba(74,222,128,0.1);
+  color: #4ade80;
+  box-shadow: 0 0 10px rgba(74,222,128,0.2);
+}
+
+/* ─────────────────────────────────────────
+   VARIANT: EDITOR  (spinning conic border)
+─────────────────────────────────────────*/
+.nb-fixed--editor {
+  border-radius: 100px;
+  padding: 1.5px;
+  overflow: hidden;
+  background: #0f0d0b;
+  isolation: isolate;
+}
+/* The spinning conic gradient layer */
+.nb-fixed--editor::before {
+  content: '';
+  position: absolute;
+  aspect-ratio: 1 / 1;
+  width: 200%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  background: conic-gradient(
+    #ff96a8 0deg,
+    #ff8500 72deg,
+    #a78bfa 144deg,
+    #ff4e6a 216deg,
+    #ff8500 288deg,
+    #ff96a8 360deg
+  );
+  animation: nb-spin 2.8s linear infinite;
+  z-index: -1;
+}
+@keyframes nb-spin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+.nb-fixed--editor .nb-island {
+  background: #0f0d0b;
+  border-radius: 100px;
+  gap: 0.25rem;
+  position: relative;
+}
+.nb-fixed--editor .nb-divider { background: #ff96a8; }
+.nb-fixed--editor .nb-btn     { color: rgba(255,255,255,0.3); }
+.nb-fixed--editor .nb-btn:hover {
+  background: rgba(255,150,168,0.12);
+  color: #ff96a8;
+  transform: scale(1.1);
+}
+.nb-fixed--editor .nb-btn--active {
+  background: rgba(255,150,168,0.15);
+  color: #ff96a8;
+  box-shadow: 0 0 12px rgba(255,150,168,0.25);
+}
+
+/* ─────────────────────────────────────
+   VARIANT: DESIGN  (glass island)
+─────────────────────────────────────*/
+.nb-fixed--design .nb-island {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(24px) saturate(1.8);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 1px 0 rgba(255,255,255,0.12) inset;
+}
+.nb-fixed--design .nb-divider { background: #fff; }
+.nb-fixed--design .nb-btn     { color: rgba(255,255,255,0.35); }
+.nb-fixed--design .nb-btn:hover {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  transform: scale(1.1);
+}
+.nb-fixed--design .nb-btn--active {
+  background: rgba(0,113,227,0.2);
+  color: #60b4ff;
+  box-shadow: 0 0 12px rgba(0,113,227,0.3);
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .nb-fixed   { top: 0.75rem; }
+  .nb-island  { padding: 0.35rem 0.55rem; gap: 0.15rem; }
+  .nb-btn     { width: 32px; height: 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nb-fixed--editor::before { animation: none; }
+  .nb-fixed { animation: none; }
+}
