@@ -7,50 +7,133 @@ import Navbar from "../components/navbar";
 /* ══════════════════════════════════════════════
    DATA
 ═══════════════════════════════════════════════ */
+
 const PROFILE = {
-  name:     "H.Zakaria",
-  alias:    "Zak",
-  role:     "Front-End Developer",
-  Studies:  "University of Algiers 1 - La Fac Centrale",
-  degree:   "1st year Computer Science — Web",
+  name: "H.Zakaria",
+  alias: "Zak",
+  role: "Front-End Developer",
+  Studies: "University of Algiers 1 - La Fac Centrale",
+  degree: "1st year Computer Science — Web",
   location: "Algeria · DZ",
-  status:   "available",
+  status: "available",
 };
 
-const SKILLS: { category: string; color: "blue" | "green" | "yellow" | "red"; items: string[] }[] = [
-  { category: "Languages",        color: "blue",   items: ["HTML5", "CSS3", "JavaScript", "TypeScript", "C"] },
-  { category: "Frameworks",       color: "green",  items: ["React", "Next.js", "Tailwind CSS"] },
-  { category: "Tools & Workflow", color: "yellow", items: ["Git", "GitHub", "VS Code", "Vite", "npm", "Code Blocks"] },
-  { category: "Concepts",         color: "red",    items: ["Responsive Design", "Component Architecture", "UI/UX Fundamentals"] },
+const SKILLS: {
+  category: string;
+  color: "blue" | "green" | "yellow" | "red";
+  items: string[];
+}[] = [
+  {
+    category: "Languages",
+    color: "blue",
+    items: ["HTML5", "CSS3", "JavaScript", "TypeScript", "C", "C++"],
+  },
+  {
+    category: "Frameworks",
+    color: "green",
+    items: ["React", "Next.js", "Electron", "Tailwind CSS"],
+  },
+  {
+    category: "Tools & Workflow",
+    color: "yellow",
+    items: ["Git", "GitHub", "VS Code", "Vite", "npm", "Code Blocks"],
+  },
+  {
+    category: "Concepts",
+    color: "red",
+    items: [
+      "Responsive Design",
+      "Component Architecture",
+      "UI/UX Fundamentals",
+    ],
+  },
 ];
 
 const EXPERIENCE = [
-  { hash: "s2a2l4p", year: "2026", type: "build", msg: "built my first deployed project with my uni club" },
-  { hash: "f4a2c9e", year: "2025", type: "feat",  msg: "learned more about technologies — React, Next" },
-  { hash: "b3d8f12", year: "2025", type: "build", msg: "built my first Next.js + TypeScript app" },
-  { hash: "7e1c403", year: "2024", type: "build", msg: "built my 1st animated UI" },
-  { hash: "a0c5d77", year: "2023", type: "init",  msg: "learned the basics HTML CSS — built first landing page" },
+  {
+    hash: "sadie3w",
+    year: "July 26",
+    type: "build",
+    msg: "15 Tiles game on web",
+    url: "https://15-tiles-game.vercel.app",
+  },
+  {
+    hash: "j2h1l41",
+    year: "june 26",
+    type: "build",
+    msg: "Smart Color picker in Hex",
+    url: "",
+  },
+  {
+    hash: "08f3s2c",
+    year: "May 26",
+    type: "front-end",
+    msg: "My Own online Portfolio",
+    url: "https://zaksshowromm.vercel.app",
+  },
+  {
+    hash: "s1a2l4p",
+    year: "April 26",
+    type: "init",
+    msg: "Hackathon Website",
+    url: "https://hack2night-4bea3.firebaseapp.com/",
+  },
+  {
+    hash: "32jsl4d",
+    year: "March 26",
+    type: "feat",
+    msg: "WebGame competition Winners (ft.Akram S)",
+    url: "https://broken-internet.netlify.app",
+  },
+  {
+    hash: "b3d8f12",
+    year: "December 25",
+    type: "front-end",
+    msg: "Hackathon Participant #5",
+    url: "",
+  },
 ];
 
 const CONTACT = [
-  { label: "github  ", value: "github.com/Zakaria-Ham",        href: "https://github.com/Zakaria-Ham" },
-  { label: "pro     ", value: "linkedin.com/in/Zakaria-ham/",  href: "https://www.linkedin.com/in/Zakaria-ham/" },
-  { label: "email   ", value: "contact.zakariaham@gmail.com",  href: "mailto:contact.zakariaham@gmail.com" },
+  {
+    label: "github  ",
+    value: "github.com/Zakaria-Ham",
+    href: "https://github.com/Zakaria-Ham",
+  },
+  {
+    label: "pro     ",
+    value: "linkedin.com/in/Zakaria-ham/",
+    href: "https://www.linkedin.com/in/Zakaria-ham/",
+  },
+  {
+    label: "email   ",
+    value: "contact.zakariaham@gmail.com",
+    href: "mailto:contact.zakariaham@gmail.com",
+  },
 ];
 
 const TYPE_CLASS: Record<string, string> = {
-  feat:  "git-feat",
+  feat: "git-feat",
+  "front-end": "git-front-end",
   build: "git-build",
-  init:  "git-init",
+  init: "git-init",
 };
 
-/* ══════════════════════════════════════════════
-   TERMINAL OUTPUT LINES
-   Each line is { type, text, href? }
-   types: default | green | blue | yellow | red | dim | error | success
-═══════════════════════════════════════════════ */
-type LineType = "default" | "green" | "blue" | "yellow" | "red" | "dim" | "error" | "success" | "gap";
-interface Line { type: LineType; text: string; href?: string }
+type LineType =
+  | "default"
+  | "green"
+  | "blue"
+  | "yellow"
+  | "red"
+  | "dim"
+  | "error"
+  | "success"
+  | "gap";
+interface Line {
+  type: LineType;
+  text: string;
+  href?: string;
+}
 
 /* ── Command processor ── */
 function runCommand(raw: string): Line[] {
@@ -58,31 +141,30 @@ function runCommand(raw: string): Line[] {
   const args = cmd.split(/\s+/);
 
   switch (args[0]) {
-
     case "help":
       return [
-        { type: "green",   text: "Available commands:" },
-        { type: "dim",     text: "  whoami            — identity & status" },
-        { type: "dim",     text: "  cat profile.json  — full profile as JSON" },
-        { type: "dim",     text: "  ls skills/        — skill tree" },
-        { type: "dim",     text: "  git log           — experience log" },
-        { type: "dim",     text: "  cat contact.txt   — contact info" },
-        { type: "dim",     text: "  pwd               — current path" },
-        { type: "dim",     text: "  uname             — system info" },
-        { type: "dim",     text: "  echo [text]       — print text" },
-        { type: "dim",     text: "  clear             — clear terminal" },
-        { type: "dim",     text: "  download          — export portfolio .txt" },
-        { type: "gap",     text: "" },
-        { type: "dim",     text: "  ↑ ↓  history  ·  Tab  autocomplete" },
+        { type: "green", text: "Available commands:" },
+        { type: "dim", text: "  whoami            — identity & status" },
+        { type: "dim", text: "  cat profile.json  — full profile as JSON" },
+        { type: "dim", text: "  ls skills/        — skill tree" },
+        { type: "dim", text: "  git log           — experience log" },
+        { type: "dim", text: "  cat contact.txt   — contact info" },
+        { type: "dim", text: "  pwd               — current path" },
+        { type: "dim", text: "  uname             — system info" },
+        { type: "dim", text: "  echo [text]       — print text" },
+        { type: "dim", text: "  clear             — clear terminal" },
+        { type: "dim", text: "  download          — export portfolio .txt" },
+        { type: "gap", text: "" },
+        { type: "dim", text: "  ↑ ↓  history  ·  Tab  autocomplete" },
       ];
 
     case "whoami":
       return [
         { type: "default", text: `${PROFILE.name}` },
-        { type: "green",   text: `  role     ${PROFILE.role}` },
-        { type: "blue",    text: `  alias    ${PROFILE.alias}` },
-        { type: "dim",     text: `  location ${PROFILE.location}` },
-        { type: "dim",     text: `  studies  ${PROFILE.Studies}` },
+        { type: "green", text: `  role     ${PROFILE.role}` },
+        { type: "blue", text: `  alias    ${PROFILE.alias}` },
+        { type: "dim", text: `  location ${PROFILE.location}` },
+        { type: "dim", text: `  studies  ${PROFILE.Studies}` },
         { type: "success", text: `  ● ${PROFILE.status}` },
       ];
 
@@ -90,27 +172,42 @@ function runCommand(raw: string): Line[] {
       if (args[1] === "profile.json" || args[1] === "profile") {
         return [
           { type: "default", text: "{" },
-          { type: "blue",    text: `  "name"      : "${PROFILE.name}",` },
-          { type: "blue",    text: `  "alias"     : "${PROFILE.alias}",` },
-          { type: "blue",    text: `  "role"      : "${PROFILE.role}",` },
-          { type: "blue",    text: `  "studies"   : "${PROFILE.Studies}",` },
-          { type: "blue",    text: `  "degree"    : "${PROFILE.degree}",` },
-          { type: "yellow",  text: `  "available" : true,` },
-          { type: "blue",    text: `  "location"  : "${PROFILE.location}"` },
+          { type: "blue", text: `  "name"      : "${PROFILE.name}",` },
+          { type: "blue", text: `  "alias"     : "${PROFILE.alias}",` },
+          { type: "blue", text: `  "role"      : "${PROFILE.role}",` },
+          { type: "blue", text: `  "studies"   : "${PROFILE.Studies}",` },
+          { type: "blue", text: `  "degree"    : "${PROFILE.degree}",` },
+          { type: "yellow", text: `  "available" : true,` },
+          { type: "blue", text: `  "location"  : "${PROFILE.location}"` },
           { type: "default", text: "}" },
         ];
       }
       if (args[1] === "contact.txt" || args[1] === "contact") {
-        return CONTACT.map(c => ({ type: "blue" as LineType, text: `  ${c.label}  ${c.value}`, href: c.href }));
+        return CONTACT.map((c) => ({
+          type: "blue" as LineType,
+          text: `  ${c.label}  ${c.value}`,
+          href: c.href,
+        }));
       }
-      return [{ type: "error", text: `cat: ${args[1] ?? "?"}: No such file or directory` }];
+      return [
+        {
+          type: "error",
+          text: `cat: ${args[1] ?? "?"}: No such file or directory`,
+        },
+      ];
 
     case "ls": {
-      const flat = SKILLS.flatMap(g => g.items);
+      const flat = SKILLS.flatMap((g) => g.items);
       return [
-        { type: "dim",    text: "total " + flat.length },
-        ...SKILLS.map(g => ({
-          type: (g.color === "blue" ? "blue" : g.color === "green" ? "green" : g.color === "yellow" ? "yellow" : "red") as LineType,
+        { type: "dim", text: "total " + flat.length },
+        ...SKILLS.map((g) => ({
+          type: (g.color === "blue"
+            ? "blue"
+            : g.color === "green"
+              ? "green"
+              : g.color === "yellow"
+                ? "yellow"
+                : "red") as LineType,
           text: `  ${g.category}/  (${g.items.join(", ")})`,
         })),
       ];
@@ -118,27 +215,33 @@ function runCommand(raw: string): Line[] {
 
     case "git":
       if (args[1] === "log") {
-        return EXPERIENCE.map(e => ({
-          type: (e.type === "feat" ? "green" : e.type === "build" ? "blue" : "yellow") as LineType,
+        return EXPERIENCE.map((e) => ({
+          type: (e.type === "feat"
+            ? "green"
+            : e.type === "build"
+              ? "blue"
+              : "yellow") as LineType,
           text: `* ${e.hash} (${e.year}) ${e.type}: ${e.msg}`,
         }));
       }
       if (args[1] === "status") {
         return [
-          { type: "green",   text: "On branch main" },
+          { type: "green", text: "On branch main" },
           { type: "success", text: "nothing to commit, working tree clean" },
         ];
       }
-      return [{ type: "error", text: `git: '${args[1]}' is not a git command` }];
+      return [
+        { type: "error", text: `git: '${args[1]}' is not a git command` },
+      ];
 
     case "pwd":
       return [{ type: "default", text: "/home/zak/showroom/dev-repo" }];
 
     case "uname":
       return [
-        { type: "dim",    text: "RedLed-OS  v2.0.0  dev-build" },
-        { type: "dim",    text: "Kernel: React 19 · Next.js 15 · TypeScript" },
-        { type: "dim",    text: "Uptime: 3+ years" },
+        { type: "dim", text: "RedLed-OS  v2.0.0  dev-build" },
+        { type: "dim", text: "Kernel: React 19 · Next.js 15 · TypeScript" },
+        { type: "dim", text: "Uptime: 3+ years" },
       ];
 
     case "echo":
@@ -156,21 +259,31 @@ function runCommand(raw: string): Line[] {
 
     default:
       return [
-        { type: "error",   text: `zsh: command not found: ${args[0]}` },
-        { type: "dim",     text: "type 'help' to see available commands" },
+        { type: "error", text: `zsh: command not found: ${args[0]}` },
+        { type: "dim", text: "type 'help' to see available commands" },
       ];
   }
 }
 
 /* ── Tab autocomplete hints ── */
 const COMMANDS = [
-  "help", "whoami", "cat profile.json", "cat contact.txt",
-  "ls skills/", "git log", "git status", "pwd", "uname", "echo", "clear", "download",
+  "help",
+  "whoami",
+  "cat profile.json",
+  "cat contact.txt",
+  "ls skills/",
+  "git log",
+  "git status",
+  "pwd",
+  "uname",
+  "echo",
+  "clear",
+  "download",
 ];
 
 function autocomplete(val: string): string {
   if (!val) return val;
-  const match = COMMANDS.find(c => c.startsWith(val.toLowerCase()));
+  const match = COMMANDS.find((c) => c.startsWith(val.toLowerCase()));
   return match ?? val;
 }
 
@@ -188,20 +301,20 @@ function downloadPortfolio() {
     "STATUS      ● available",
     "",
     "─── SKILLS ─────────────────────────────────",
-    ...SKILLS.map(g => `\n[${g.category}]\n  ${g.items.join(" · ")}`),
+    ...SKILLS.map((g) => `\n[${g.category}]\n  ${g.items.join(" · ")}`),
     "",
     "─── EXPERIENCE ──────────────────────────────",
-    ...EXPERIENCE.map(e => `${e.year}  ${e.type.padEnd(6)}  ${e.msg}`),
+    ...EXPERIENCE.map((e) => `${e.year}  ${e.type.padEnd(6)}  ${e.msg}`),
     "",
     "─── CONTACT ─────────────────────────────────",
-    ...CONTACT.map(c => `${c.label.trim().padEnd(8)}  ${c.value}`),
+    ...CONTACT.map((c) => `${c.label.trim().padEnd(8)}  ${c.value}`),
     "",
     "Generated by redled.fx · " + new Date().toLocaleDateString(),
   ];
   const blob = new Blob([lines.join("\n")], { type: "text/plain" });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement("a");
-  a.href     = url;
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
   a.download = "zak-dev-portfolio.txt";
   a.click();
   URL.revokeObjectURL(url);
@@ -210,20 +323,23 @@ function downloadPortfolio() {
 /* ══════════════════════════════════════════════
    COMPONENT
 ═══════════════════════════════════════════════ */
-interface HistoryEntry { cmd: string; lines: Line[] }
+interface HistoryEntry {
+  cmd: string;
+  lines: Line[];
+}
 
 export default function DevRepo() {
   const router = useRouter();
   const ps1 = PROFILE.alias.toLowerCase();
 
-  const [input,   setInput]   = useState("");
+  const [input, setInput] = useState("");
   const [history, setHistory] = useState<HistoryEntry[]>([]);
-  const [cmdHist, setCmdHist] = useState<string[]>([]);   // arrow-key history
+  const [cmdHist, setCmdHist] = useState<string[]>([]); // arrow-key history
   const [histIdx, setHistIdx] = useState(-1);
 
-  const inputRef   = useRef<HTMLInputElement>(null);
-  const bottomRef  = useRef<HTMLDivElement>(null);
-  const bodyRef    = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
 
   /* Auto-scroll to bottom on new output */
   useEffect(() => {
@@ -237,7 +353,7 @@ export default function DevRepo() {
   const handleKey = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       const trimmed = input.trim();
-      const lines   = runCommand(trimmed);
+      const lines = runCommand(trimmed);
 
       /* Sentinel: clear */
       if (lines[0]?.text === "__CLEAR__") {
@@ -250,18 +366,26 @@ export default function DevRepo() {
       /* Sentinel: download */
       if (lines[0]?.text === "__DOWNLOAD__") {
         downloadPortfolio();
-        setHistory(h => [...h, {
-          cmd: trimmed,
-          lines: [{ type: "success", text: "  ✓ downloading zak-dev-portfolio.txt …" }],
-        }]);
+        setHistory((h) => [
+          ...h,
+          {
+            cmd: trimmed,
+            lines: [
+              {
+                type: "success",
+                text: "  ✓ downloading zak-dev-portfolio.txt …",
+              },
+            ],
+          },
+        ]);
         setInput("");
         setHistIdx(-1);
-        if (trimmed) setCmdHist(h => [trimmed, ...h.slice(0, 49)]);
+        if (trimmed) setCmdHist((h) => [trimmed, ...h.slice(0, 49)]);
         return;
       }
 
-      setHistory(h => [...h, { cmd: trimmed, lines }]);
-      if (trimmed) setCmdHist(h => [trimmed, ...h.slice(0, 49)]);
+      setHistory((h) => [...h, { cmd: trimmed, lines }]);
+      if (trimmed) setCmdHist((h) => [trimmed, ...h.slice(0, 49)]);
       setInput("");
       setHistIdx(-1);
     }
@@ -276,8 +400,13 @@ export default function DevRepo() {
     if (e.key === "ArrowDown") {
       e.preventDefault();
       const next = histIdx - 1;
-      if (next < 0) { setHistIdx(-1); setInput(""); }
-      else          { setHistIdx(next); setInput(cmdHist[next] ?? ""); }
+      if (next < 0) {
+        setHistIdx(-1);
+        setInput("");
+      } else {
+        setHistIdx(next);
+        setInput(cmdHist[next] ?? "");
+      }
     }
 
     /* Tab autocomplete */
@@ -296,53 +425,124 @@ export default function DevRepo() {
         {/* Title bar */}
         <header className="dev-titlebar">
           <div className="dev-dots">
-            <span className="dev-dot dot-close" onClick={() => router.push("/?view=cards")} title="Back" />
+            <span
+              className="dev-dot dot-close"
+              onClick={() => router.push("/?view=cards")}
+              title="Back"
+            />
             <span className="dev-dot dot-min" />
             <span className="dev-dot dot-max" />
           </div>
-          <span className="dev-title-text">{ps1}@hmd — ~/showroom/dev-repo</span>
+          <span className="dev-title-text">
+            {ps1}@hmd — ~/showroom/dev-repo
+          </span>
           <span className="dev-title-right">zsh</span>
         </header>
 
         {/* ── Static boot sections ── */}
         <div className="dev-body" ref={bodyRef} onClick={focusInput}>
-
           {/* whoami */}
           <section className="dev-block dev-anim-1">
-            <p className="dev-cmd"><span className="dev-ps1">{ps1}@redled</span><span className="dev-ps2">:~/dev$</span> whoami</p>
+            <p className="dev-cmd">
+              <span className="dev-ps1">{ps1}@redled</span>
+              <span className="dev-ps2">:~/dev$</span> whoami
+            </p>
             <div className="dev-whoami">
-              <p className="dev-out-name">{PROFILE.name} — <span className="dev-green">{PROFILE.role}</span></p>
-              <p className="dev-out-sub">alias <span className="dev-blue">{PROFILE.alias}</span>&nbsp;·&nbsp;<span className="dev-dim">{PROFILE.location}</span></p>
-              <span className={`dev-status ${PROFILE.status === "available" ? "status-on" : "status-off"}`}>● {PROFILE.status}</span>
+              <p className="dev-out-name">
+                {PROFILE.name} —{" "}
+                <span className="dev-green">{PROFILE.role}</span>
+              </p>
+              <p className="dev-out-sub">
+                alias <span className="dev-blue">{PROFILE.alias}</span>
+                &nbsp;·&nbsp;<span className="dev-dim">{PROFILE.location}</span>
+              </p>
+              <span
+                className={`dev-status ${PROFILE.status === "available" ? "status-on" : "status-off"}`}
+              >
+                ● {PROFILE.status}
+              </span>
             </div>
           </section>
 
           {/* profile.json */}
           <section className="dev-block dev-anim-2">
-            <p className="dev-cmd"><span className="dev-ps1">{ps1}@redled</span><span className="dev-ps2">:~/dev$</span> cat profile.json</p>
+            <p className="dev-cmd">
+              <span className="dev-ps1">{ps1}@redled</span>
+              <span className="dev-ps2">:~/dev$</span> cat profile.json
+            </p>
             <div className="dev-json">
-              <p><span className="jb">{"{"}</span></p>
-              <p>&nbsp;&nbsp;<span className="jk">&quot;name&quot;</span><span className="jp">:</span> <span className="js">&quot;{PROFILE.name}&quot;</span><span className="jp">,</span></p>
-              <p>&nbsp;&nbsp;<span className="jk">&quot;alias&quot;</span><span className="jp">:</span> <span className="js">&quot;{PROFILE.alias}&quot;</span><span className="jp">,</span></p>
-              <p>&nbsp;&nbsp;<span className="jk">&quot;role&quot;</span><span className="jp">:</span> <span className="js">&quot;{PROFILE.role}&quot;</span><span className="jp">,</span></p>
-              <p>&nbsp;&nbsp;<span className="jk">&quot;studies&quot;</span><span className="jp">:</span> <span className="js">&quot;{PROFILE.Studies}&quot;</span><span className="jp">,</span></p>
-              <p>&nbsp;&nbsp;<span className="jk">&quot;degree&quot;</span><span className="jp">:</span> <span className="js">&quot;{PROFILE.degree}&quot;</span><span className="jp">,</span></p>
-              <p>&nbsp;&nbsp;<span className="jk">&quot;available&quot;</span><span className="jp">:</span> <span className="jbool">true</span><span className="jp">,</span></p>
-              <p>&nbsp;&nbsp;<span className="jk">&quot;location&quot;</span><span className="jp">:</span> <span className="js">&quot;{PROFILE.location}&quot;</span></p>
-              <p><span className="jb">{"}"}</span></p>
+              <p>
+                <span className="jb">{"{"}</span>
+              </p>
+              <p>
+                &nbsp;&nbsp;<span className="jk">&quot;name&quot;</span>
+                <span className="jp">:</span>{" "}
+                <span className="js">&quot;{PROFILE.name}&quot;</span>
+                <span className="jp">,</span>
+              </p>
+              <p>
+                &nbsp;&nbsp;<span className="jk">&quot;alias&quot;</span>
+                <span className="jp">:</span>{" "}
+                <span className="js">&quot;{PROFILE.alias}&quot;</span>
+                <span className="jp">,</span>
+              </p>
+              <p>
+                &nbsp;&nbsp;<span className="jk">&quot;role&quot;</span>
+                <span className="jp">:</span>{" "}
+                <span className="js">&quot;{PROFILE.role}&quot;</span>
+                <span className="jp">,</span>
+              </p>
+              <p>
+                &nbsp;&nbsp;<span className="jk">&quot;studies&quot;</span>
+                <span className="jp">:</span>{" "}
+                <span className="js">&quot;{PROFILE.Studies}&quot;</span>
+                <span className="jp">,</span>
+              </p>
+              <p>
+                &nbsp;&nbsp;<span className="jk">&quot;degree&quot;</span>
+                <span className="jp">:</span>{" "}
+                <span className="js">&quot;{PROFILE.degree}&quot;</span>
+                <span className="jp">,</span>
+              </p>
+              <p>
+                &nbsp;&nbsp;<span className="jk">&quot;available&quot;</span>
+                <span className="jp">:</span>{" "}
+                <span className="jbool">true</span>
+                <span className="jp">,</span>
+              </p>
+              <p>
+                &nbsp;&nbsp;<span className="jk">&quot;location&quot;</span>
+                <span className="jp">:</span>{" "}
+                <span className="js">&quot;{PROFILE.location}&quot;</span>
+              </p>
+              <p>
+                <span className="jb">{"}"}</span>
+              </p>
             </div>
           </section>
 
           {/* skills */}
           <section className="dev-block dev-anim-3">
-            <p className="dev-cmd"><span className="dev-ps1">{ps1}@redled</span><span className="dev-ps2">:~/dev$</span> ls -la skills/</p>
+            <p className="dev-cmd">
+              <span className="dev-ps1">{ps1}@redled</span>
+              <span className="dev-ps2">:~/dev$</span> ls -la skills/
+            </p>
             <div className="dev-skills-grid">
               {SKILLS.map((group) => (
-                <div className="dev-skill-group" key={group.category} data-color={group.color}>
-                  <p className="dev-skill-cat"><span className="dev-comment">// </span>{group.category}</p>
+                <div
+                  className="dev-skill-group"
+                  key={group.category}
+                  data-color={group.color}
+                >
+                  <p className="dev-skill-cat">
+                    <span className="dev-comment">// </span>
+                    {group.category}
+                  </p>
                   <div className="dev-skill-tags">
                     {group.items.map((item) => (
-                      <span className="dev-skill-tag" key={item}>{item}</span>
+                      <span className="dev-skill-tag" key={item}>
+                        {item}
+                      </span>
                     ))}
                   </div>
                 </div>
@@ -352,15 +552,34 @@ export default function DevRepo() {
 
           {/* git log */}
           <section className="dev-block dev-anim-4">
-            <p className="dev-cmd"><span className="dev-ps1">{ps1}@redled</span><span className="dev-ps2">:~/dev$</span> git log --oneline --graph</p>
+            <p className="dev-cmd">
+              <span className="dev-ps1">{ps1}@redled</span>
+              <span className="dev-ps2">:~/dev$</span> git log --oneline --graph
+            </p>
             <div className="dev-gitlog">
               {EXPERIENCE.map((e) => (
                 <div className="dev-git-row" key={e.hash}>
                   <span className="dev-git-tree">*</span>
                   <span className="dev-git-hash">{e.hash}</span>
                   <span className="dev-git-year">({e.year})</span>
-                  <span className={`dev-git-type ${TYPE_CLASS[e.type] ?? ""}`}>{e.type}:</span>
-                  <span className="dev-git-msg">{e.msg}</span>
+                  <span className={`dev-git-type ${TYPE_CLASS[e.type] ?? ""}`}>
+                    {e.type}:
+                  </span>
+
+                  <span className="dev-git-msg">
+                    {e.msg}
+                
+                    {e.url && (
+                      <a
+                        href={e.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="dev-experience-link"
+                      >
+                        click here
+                      </a>
+                    )}
+                  </span>
                 </div>
               ))}
             </div>
@@ -368,12 +587,22 @@ export default function DevRepo() {
 
           {/* contact */}
           <section className="dev-block dev-anim-5">
-            <p className="dev-cmd"><span className="dev-ps1">{ps1}@redled</span><span className="dev-ps2">:~/dev$</span> cat contact.txt</p>
+            <p className="dev-cmd">
+              <span className="dev-ps1">{ps1}@redled</span>
+              <span className="dev-ps2">:~/dev$</span> cat contact.txt
+            </p>
             <div className="dev-contact">
               {CONTACT.map((c) => (
                 <p key={c.label}>
                   <span className="dev-contact-label">{c.label}</span>
-                  <a className="dev-contact-link" href={c.href} target="_blank" rel="noreferrer">{c.value}</a>
+                  <a
+                    className="dev-contact-link"
+                    href={c.href}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {c.value}
+                  </a>
                 </p>
               ))}
             </div>
@@ -393,10 +622,18 @@ export default function DevRepo() {
               <div className="dev-output">
                 {entry.lines.map((line, j) => (
                   <p key={j} className={`dev-out-line dev-out-${line.type}`}>
-                    {line.href
-                      ? <a href={line.href} target="_blank" rel="noreferrer" className="dev-contact-link">{line.text}</a>
-                      : line.text
-                    }
+                    {line.href ? (
+                      <a
+                        href={line.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="dev-contact-link"
+                      >
+                        {line.text}
+                      </a>
+                    ) : (
+                      line.text
+                    )}
                   </p>
                 ))}
               </div>
@@ -414,7 +651,7 @@ export default function DevRepo() {
                 ref={inputRef}
                 className="dev-term-input"
                 value={input}
-                onChange={e => setInput(e.target.value)}
+                onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKey}
                 autoComplete="off"
                 autoCorrect="off"
@@ -424,9 +661,13 @@ export default function DevRepo() {
               />
               <span className="dev-cursor" aria-hidden="true" />
             </label>
-            <p className="dev-hint">type <span className="dev-green">help</span> for commands &nbsp;·&nbsp; <span className="dev-dim">↑↓ history · Tab autocomplete</span></p>
-          </div>
 
+            <p className="dev-hint">
+              type <span className="dev-green">help</span> for commands
+              &nbsp;·&nbsp;
+              <span className="dev-dim">↑↓ history · Tab autocomplete</span>
+            </p>
+          </div>
         </div>
       </div>
 

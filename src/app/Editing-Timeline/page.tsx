@@ -64,8 +64,8 @@ export default function EditingTimeline() {
             </div>
             <div className="ed-monitor-bars" aria-hidden="true">
               {Array.from({ length: 24 }).map((_, i) => (
-                <span key={i} className="ed-bar"
-                  style={{ animationDelay: `${i * 0.07}s`, height: `${20 + Math.sin(i) * 14}px` }} />
+                <span key={i} className="ed-bar"  
+                  style={{ animationDelay: `${i * 0.07}s`, height: `${3.1415290324 * 7 + (Math.sin(i)* 5)*(Math.sin(i)* 3) + (Math.cos(i)/3.14233939) * 12 }px` }} />
               ))}
             </div>
           </div>
