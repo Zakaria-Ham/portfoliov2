@@ -21,12 +21,11 @@ const SKILLS = [
 ];
 
 const SOFTWARE = [
-  { name: "Figma",             role: "UI & Prototyping",      icon: "◈" },
-  { name: "Adobe Photoshop",   role: "Photo & Compositing",   icon: "◧" },
-  { name: "Adobe Illustrator", role: "Vector & Illustration", icon: "◭" },
-  { name: "After Effects",     role: "Motion & Animation",    icon: "◉" },
-  { name: "Blender",           role: "3D & Rendering",        icon: "◎" },
-  { name: "Adobe XD",          role: "Wireframing & UX",      icon: "◫" },
+  { name: "Figma",             role: "UI & Prototyping",         icon: "◈" },
+  { name: "Adobe Photoshop",   role: "Photo & Compositing",      icon: "◧" },
+  { name: "Adobe Illustrator", role: "Vector & Illustration",    icon: "◭" },
+  { name: "Ibis Paint",        role: "Mobile Design",            icon: "◉" },
+  { name: "Affinity",          role: "Thumbnails & Compositing", icon: "◉" },
 ];
 
 const PROJECTS = [
