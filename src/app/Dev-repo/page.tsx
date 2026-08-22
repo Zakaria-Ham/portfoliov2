@@ -69,14 +69,14 @@ const EXPERIENCE = [
     year: "May 26",
     type: "front-end",
     msg: "My Own online Portfolio",
-    url: "https://zaksshowromm.vercel.app",
+    url: "https://zaksshowroom.vercel.app",
   },
   {
     hash: "s1a2l4p",
     year: "April 26",
     type: "init",
     msg: "Hackathon Website",
-    url: "https://hack2night-4bea3.firebaseapp.com/",
+    url: "",
   },
   {
     hash: "32jsl4d",
