@@ -24,7 +24,7 @@ const SOFTWARE = [
   { name: "Figma",             role: "UI & Prototyping",         icon: "◈" },
   { name: "Adobe Photoshop",   role: "Photo & Compositing",      icon: "◧" },
   { name: "Adobe Illustrator", role: "Vector & Illustration",    icon: "◭" },
-  { name: "Ibis Paint",        role: "Mobile Design",            icon: "◉" },
+  { name: "Ibis Paint",        role: "Mobile Designs",           icon: "◉" },
   { name: "Affinity",          role: "Thumbnails & Compositing", icon: "◉" },
 ];
 

@@ -1,0 +1,182 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --t-bg: #0a0a0a;
+  --t-surface: #0f0f0f;
+  --t-surface2: #151515;
+  --t-border: #1e1e1e;
+  --t-border2: #2a2a2a;
+  --t-green: #4ade80;
+  --t-green-d: #166534;
+  --t-blue: #60a5fa;
+  --t-yellow: #fbbf24;
+  --t-red: #f87171;
+  --t-white: #c9d1d9;
+  --t-dim: #484f58;
+  --t-string: #a5d6ff;
+  --t-bool: #ff9e64;
+  --t-mono: "JetBrains Mono", "Courier New", monospace;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  width: 100%;
+  max-width: 480px;
+  background: var(--t-surface2);
+  border: 1px solid var(--t-border2);
+  border-radius: 10px;
+  padding: 1.5rem 1.6rem;
+  font-family: var(--t-mono);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+}
+
+/* Top row: hash/date + title on the left, X on the right */
+.detailsContainer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.leftSide {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.prints {
+  display: flex;
+}
+
+.dev-git-prints {
+  font-size: 0.72rem;
+  color: var(--t-dim);
+  letter-spacing: 0.2px;
+}
+
+.hashText {
+  color: var(--t-yellow);
+}
+
+.dateText {
+  color: var(--t-dim);
+}
+
+.titles {
+  display: flex;
+}
+
+.dev-repo-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--t-white);
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.rightSide {
+  flex-shrink: 0;
+}
+
+.closeContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.closeText {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--t-dim);
+  line-height: 1;
+}
+
+.closeContainer:hover {
+  background: rgba(248, 113, 113, 0.08);
+}
+
+.closeContainer:hover .closeText {
+  color: var(--t-red);
+}
+
+/* Description below the title/close row */
+.descriptionContainer {
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--t-border);
+}
+
+.descriptionText {
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: var(--t-white);
+  opacity: 0.85;
+  white-space: pre-wrap;
+}
+
+/* Project links */
+.linksContainer {
+  display: flex;
+  gap: 0.7rem;
+  padding-top: 0.3rem;
+}
+
+.projectLinkButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex: 1;
+  min-height: 38px;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--t-border2);
+  border-radius: 6px;
+  background: var(--t-surface);
+  color: var(--t-white);
+  font-family: var(--t-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s,
+    transform 0.15s;
+}
+
+.projectLinkButton svg {
+  flex-shrink: 0;
+}
+
+.projectLinkButton:hover:not(:disabled) {
+  background: var(--t-border);
+  border-color: var(--t-green-d);
+  color: var(--t-green);
+  transform: translateY(-1px);
+}
+
+.projectLinkButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.projectLinkButton:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}

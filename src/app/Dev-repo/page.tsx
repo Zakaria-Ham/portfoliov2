@@ -3,17 +3,14 @@ import "../styles/Dev.css";
 import { useState, useRef, useEffect, KeyboardEvent } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../components/navbar";
-
-/* ══════════════════════════════════════════════
-   DATA
-═══════════════════════════════════════════════ */
+import ProjectDetailes from "../components/projectDetailes";
 
 const PROFILE = {
   name: "H.Zakaria",
   alias: "Zak",
   role: "Front-End Developer",
   Studies: "University of Algiers 1 - La Fac Centrale",
-  degree: "1st year Computer Science — Web",
+  degree: "1st date Computer Science — Web",
   location: "Algeria · DZ",
   status: "available",
 };
@@ -26,71 +23,109 @@ const SKILLS: {
   {
     category: "Languages",
     color: "blue",
-    items: ["HTML5", "CSS3", "JavaScript", "TypeScript", "C", "C++"],
+    items: ["HTML5", "CSS3", "JavaScript", "TypeScript", "C"],
   },
   {
-    category: "Frameworks",
+    category: "Frameworks & Libraries",
     color: "green",
-    items: ["React", "Next.js", "Electron", "Tailwind CSS"],
+    items: [
+      "React",
+      "Next.js",
+      "Electron",
+      "Tailwind CSS",
+      "React Native",
+      "Expo",
+    ],
   },
   {
     category: "Tools & Workflow",
     color: "yellow",
-    items: ["Git", "GitHub", "VS Code", "Vite", "npm", "Code Blocks"],
+    items: ["Git", "GitHub", "VS Code", "Vite", "npm"],
   },
   {
     category: "Concepts",
     color: "red",
     items: [
-      "Responsive Design",
+      "Cross-Platform Mobile Development",
       "Component Architecture",
-      "UI/UX Fundamentals",
+      "State Management (Context API)",
+      "File-Based Routing",
+      "Custom Theming Systems (Light/Dark)",
+      "TypeScript Data Modeling",
+      "Geolocation & Maps Integration",
+      "Interactive UI & Animation",
+      "Complex Client-Side Game/State Logic",
     ],
   },
 ];
 
 const EXPERIENCE = [
   {
+    hash: "8hdf8wq",
+    date: "september 2026",
+    type: "build",
+    msg: "ACTV app",
+    appUrl: "https://mega.nz/file/REJk0AoQ#VtPeLzycEg4TBUf1EKtGy_VT7noOVuJ30Wpzt-pMfns",
+    githubUrl: "https://github.com/Zakaria-Ham/Active",
+    description:
+      "A local-first activity planner built with React Native and Expo. It combines tasks, scheduling, and an interactive map to organize sport, study, and everyday activities.",
+  },
+  {
     hash: "sadie3w",
-    year: "July 26",
+    date: "July 26",
     type: "build",
     msg: "15 Tiles game on web",
-    url: "https://15-tiles-game.vercel.app",
+    appUrl: "https://15-tiles-game.vercel.app",
+    githubUrl: "https://github.com/Zakaria-Ham/15-Tiles-Game",
+    description:
+      "A browser-based 15 Tiles puzzle game where the goal is to rearrange the numbered tiles into their solved order. Built as an interactive web game with a custom solver and gameplay features.",
   },
   {
     hash: "j2h1l41",
-    year: "june 26",
+    date: "june 26",
     type: "build",
     msg: "Smart Color picker in Hex",
-    url: "",
+    appUrl: "",
+    githubUrl: "https://github.com/Zakaria-Ham/Color-Picker",
+    description: "",
   },
   {
     hash: "08f3s2c",
-    year: "May 26",
+    date: "May 26",
     type: "front-end",
     msg: "My Own online Portfolio",
-    url: "https://zaksshowroom.vercel.app",
+    appUrl: "https://zaksshowroom.vercel.app",
+    githubUrl: "https://github.com/Zakaria-Ham/portfoliov2",
+    description:
+      "A personal interactive portfolio showcasing development, visual editing, and design work through a cinematic, experience-focused interface.",
   },
   {
     hash: "s1a2l4p",
-    year: "April 26",
+    date: "April 26",
     type: "init",
     msg: "Hackathon Website",
-    url: "",
+    appUrl: "https://hack2night-4bea3.firebaseapp.com",
+    githubUrl: "",
+    description: "A registration webstie for Hack2Night hackathon 2nd edition built with next.js. node.js and firebase for participant's regestrations.",
   },
   {
     hash: "32jsl4d",
-    year: "March 26",
+    date: "March 26",
     type: "feat",
     msg: "WebGame competition Winners (ft.Akram S)",
-    url: "https://broken-internet.netlify.app",
+    appUrl: "https://broken-internet.netlify.app",
+    githubUrl: "https://github.com/Zakaria-Ham/Broken-Game",
+    description:
+      "A web game project created for a competition, built around the concept of a deliberately broken internet experience.",
   },
   {
     hash: "b3d8f12",
-    year: "December 25",
+    date: "December 25",
     type: "front-end",
-    msg: "Hackathon Participant #5",
-    url: "",
+    msg: "Hackathon Participant 5th place",
+    appUrl: "",
+    githubUrl: "",
+    description: "A web-based app to recieve and handle client's tickets and divide them between support team and 24/7 AI-Agent.",
   },
 ];
 
@@ -111,6 +146,20 @@ const CONTACT = [
     href: "mailto:contact.zakariaham@gmail.com",
   },
 ];
+
+function detailsPopUp(item: (typeof EXPERIENCE)[number], onClose: () => void) {
+  return (
+    <ProjectDetailes
+      hash={item.hash}
+      date={item.date}
+      title={item.msg}
+      description={item.description}
+      appUrl={item.appUrl}
+      githubUrl={item.githubUrl}
+      onClose={onClose}
+    />
+  );
+}
 
 const TYPE_CLASS: Record<string, string> = {
   feat: "git-feat",
@@ -135,7 +184,6 @@ interface Line {
   href?: string;
 }
 
-/* ── Command processor ── */
 function runCommand(raw: string): Line[] {
   const cmd = raw.trim().toLowerCase();
   const args = cmd.split(/\s+/);
@@ -221,7 +269,7 @@ function runCommand(raw: string): Line[] {
             : e.type === "build"
               ? "blue"
               : "yellow") as LineType,
-          text: `* ${e.hash} (${e.year}) ${e.type}: ${e.msg}`,
+          text: `* ${e.hash} (${e.date}) ${e.type}: ${e.msg}`,
         }));
       }
       if (args[1] === "status") {
@@ -241,18 +289,18 @@ function runCommand(raw: string): Line[] {
       return [
         { type: "dim", text: "RedLed-OS  v2.0.0  dev-build" },
         { type: "dim", text: "Kernel: React 19 · Next.js 15 · TypeScript" },
-        { type: "dim", text: "Uptime: 3+ years" },
+        { type: "dim", text: "Uptime: 3+ dates" },
       ];
 
     case "echo":
       return [{ type: "default", text: args.slice(1).join(" ") || "" }];
 
     case "clear":
-      return [{ type: "gap", text: "__CLEAR__" }]; // sentinel handled in component
+      return [{ type: "gap", text: "__CLEAR__" }];
 
     case "download":
     case "export":
-      return [{ type: "success", text: "__DOWNLOAD__" }]; // sentinel
+      return [{ type: "success", text: "__DOWNLOAD__" }];
 
     case "":
       return [];
@@ -265,7 +313,6 @@ function runCommand(raw: string): Line[] {
   }
 }
 
-/* ── Tab autocomplete hints ── */
 const COMMANDS = [
   "help",
   "whoami",
@@ -287,7 +334,6 @@ function autocomplete(val: string): string {
   return match ?? val;
 }
 
-/* ── Portfolio download ── */
 function downloadPortfolio() {
   const lines = [
     "═══════════════════════════════════════════",
@@ -304,7 +350,7 @@ function downloadPortfolio() {
     ...SKILLS.map((g) => `\n[${g.category}]\n  ${g.items.join(" · ")}`),
     "",
     "─── EXPERIENCE ──────────────────────────────",
-    ...EXPERIENCE.map((e) => `${e.year}  ${e.type.padEnd(6)}  ${e.msg}`),
+    ...EXPERIENCE.map((e) => `${e.date}  ${e.type.padEnd(6)}  ${e.msg}`),
     "",
     "─── CONTACT ─────────────────────────────────",
     ...CONTACT.map((c) => `${c.label.trim().padEnd(8)}  ${c.value}`),
@@ -320,9 +366,6 @@ function downloadPortfolio() {
   URL.revokeObjectURL(url);
 }
 
-/* ══════════════════════════════════════════════
-   COMPONENT
-═══════════════════════════════════════════════ */
 interface HistoryEntry {
   cmd: string;
   lines: Line[];
@@ -334,28 +377,30 @@ export default function DevRepo() {
 
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<HistoryEntry[]>([]);
-  const [cmdHist, setCmdHist] = useState<string[]>([]); // arrow-key history
+  const [cmdHist, setCmdHist] = useState<string[]>([]);
   const [histIdx, setHistIdx] = useState(-1);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
 
-  /* Auto-scroll to bottom on new output */
+  const [selected, setSelected] = useState<(typeof EXPERIENCE)[number] | null>(
+    null,
+  );
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [history]);
 
-  /* Focus input when clicking anywhere in terminal body */
-  const focusInput = () => inputRef.current?.focus();
+  const focusInput = () => {
+    if (!selected) inputRef.current?.focus();
+  };
 
-  /* Handle keydown inside the input */
   const handleKey = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       const trimmed = input.trim();
       const lines = runCommand(trimmed);
 
-      /* Sentinel: clear */
       if (lines[0]?.text === "__CLEAR__") {
         setHistory([]);
         setInput("");
@@ -363,7 +408,6 @@ export default function DevRepo() {
         return;
       }
 
-      /* Sentinel: download */
       if (lines[0]?.text === "__DOWNLOAD__") {
         downloadPortfolio();
         setHistory((h) => [
@@ -390,7 +434,6 @@ export default function DevRepo() {
       setHistIdx(-1);
     }
 
-    /* Arrow-key command history */
     if (e.key === "ArrowUp") {
       e.preventDefault();
       const next = Math.min(histIdx + 1, cmdHist.length - 1);
@@ -409,7 +452,6 @@ export default function DevRepo() {
       }
     }
 
-    /* Tab autocomplete */
     if (e.key === "Tab") {
       e.preventDefault();
       setInput(autocomplete(input));
@@ -422,7 +464,6 @@ export default function DevRepo() {
       <div className="dev-scanlines" aria-hidden="true" />
 
       <div className="dev-terminal dev-enter">
-        {/* Title bar */}
         <header className="dev-titlebar">
           <div className="dev-dots">
             <span
@@ -439,9 +480,7 @@ export default function DevRepo() {
           <span className="dev-title-right">zsh</span>
         </header>
 
-        {/* ── Static boot sections ── */}
         <div className="dev-body" ref={bodyRef} onClick={focusInput}>
-          {/* whoami */}
           <section className="dev-block dev-anim-1">
             <p className="dev-cmd">
               <span className="dev-ps1">{ps1}@redled</span>
@@ -464,7 +503,6 @@ export default function DevRepo() {
             </div>
           </section>
 
-          {/* profile.json */}
           <section className="dev-block dev-anim-2">
             <p className="dev-cmd">
               <span className="dev-ps1">{ps1}@redled</span>
@@ -521,7 +559,6 @@ export default function DevRepo() {
             </div>
           </section>
 
-          {/* skills */}
           <section className="dev-block dev-anim-3">
             <p className="dev-cmd">
               <span className="dev-ps1">{ps1}@redled</span>
@@ -550,7 +587,6 @@ export default function DevRepo() {
             </div>
           </section>
 
-          {/* git log */}
           <section className="dev-block dev-anim-4">
             <p className="dev-cmd">
               <span className="dev-ps1">{ps1}@redled</span>
@@ -558,23 +594,31 @@ export default function DevRepo() {
             </p>
             <div className="dev-gitlog">
               {EXPERIENCE.map((e) => (
-                <div className="dev-git-row" key={e.hash}>
+                <div
+                  className="dev-git-row"
+                  key={e.hash}
+                  onClick={(ev) => {
+                    ev.stopPropagation();
+                    setSelected(e);
+                  }}
+                >
                   <span className="dev-git-tree">*</span>
                   <span className="dev-git-hash">{e.hash}</span>
-                  <span className="dev-git-year">({e.year})</span>
+                  <span className="dev-git-date">({e.date})</span>
                   <span className={`dev-git-type ${TYPE_CLASS[e.type] ?? ""}`}>
                     {e.type}:
                   </span>
 
                   <span className="dev-git-msg">
                     {e.msg}
-                
-                    {e.url && (
+
+                    {(e.appUrl || e.githubUrl) && (
                       <a
-                        href={e.url}
+                        href={e.appUrl || e.githubUrl}
                         target="_blank"
                         rel="noreferrer"
                         className="dev-experience-link"
+                        onClick={(ev) => ev.stopPropagation()}
                       >
                         click here
                       </a>
@@ -585,7 +629,6 @@ export default function DevRepo() {
             </div>
           </section>
 
-          {/* contact */}
           <section className="dev-block dev-anim-5">
             <p className="dev-cmd">
               <span className="dev-ps1">{ps1}@redled</span>
@@ -608,17 +651,14 @@ export default function DevRepo() {
             </div>
           </section>
 
-          {/* ── Dynamic command history ── */}
           {history.map((entry, i) => (
             <div className="dev-block" key={i}>
-              {/* The command that was typed */}
               <p className="dev-cmd">
                 <span className="dev-ps1">{ps1}@redled</span>
                 <span className="dev-ps2">:~/dev$</span>
                 &nbsp;
                 <span className="dev-typed-cmd">{entry.cmd}</span>
               </p>
-              {/* Its output */}
               <div className="dev-output">
                 {entry.lines.map((line, j) => (
                   <p key={j} className={`dev-out-line dev-out-${line.type}`}>
@@ -640,7 +680,6 @@ export default function DevRepo() {
             </div>
           ))}
 
-          {/* ── Live input prompt ── */}
           <div className="dev-block dev-prompt-live" ref={bottomRef}>
             <label className="dev-cmd dev-prompt-row" htmlFor="term-input">
               <span className="dev-ps1">{ps1}@redled</span>
@@ -671,7 +710,6 @@ export default function DevRepo() {
         </div>
       </div>
 
-      {/* ── Download button ── */}
       <div className="dev-download-row">
         <button className="dev-download-btn" onClick={downloadPortfolio}>
           <span className="dev-download-icon">⬇</span>
@@ -683,6 +721,14 @@ export default function DevRepo() {
       <button className="dev-back" onClick={() => router.push("/?view=cards")}>
         <span className="dev-dim">$</span> cd ..
       </button>
+
+      {selected && (
+        <div className="dev-modal-backdrop" onClick={() => setSelected(null)}>
+          <div onClick={(ev) => ev.stopPropagation()}>
+            {detailsPopUp(selected, () => setSelected(null))}
+          </div>
+        </div>
+      )}
     </main>
   );
 }

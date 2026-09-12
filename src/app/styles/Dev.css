@@ -113,7 +113,6 @@
   animation: dev-block-in 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0.55s both;
 }
 
-/* ── Terminal window ── */
 .dev-terminal {
   position: relative;
   z-index: 1;
@@ -127,8 +126,6 @@
     0 40px 100px rgba(0, 0, 0, 0.9),
     0 0 50px rgba(74, 222, 128, 0.03);
 }
-
-/* Title bar */
 .dev-titlebar {
   background: #161616;
   padding: 11px 16px;
@@ -173,7 +170,6 @@
   font-size: 0.72rem;
 }
 
-/* Body */
 .dev-body {
   background: var(--t-surface);
   padding: 1.75rem 2rem 0;
@@ -181,16 +177,12 @@
   flex-direction: column;
   gap: 2rem;
   cursor: text;
-
   max-height: 78vh;
   overflow-y: auto;
   scroll-behavior: smooth;
-
-  /* Space for the fixed input */
   padding-bottom: 6rem;
 }
 
-/* ── Scrollbar styling ── */
 .dev-body::-webkit-scrollbar {
   width: 6px;
 }
@@ -203,9 +195,12 @@
 }
 .dev-body::-webkit-scrollbar-thumb:hover {
   background: var(--t-dim);
+  cursor: grab;
+}
+.dev-body::-webkit-scrollbar-thumb:active {
+  cursor: grabbing;
 }
 
-/* ── Command line ── */
 .dev-block {
   display: flex;
   flex-direction: column;
@@ -233,12 +228,10 @@
   color: var(--t-blue);
 }
 
-/* Typed command echo */
 .dev-typed-cmd {
   color: var(--t-white);
 }
 
-/* ── Output lines ── */
 .dev-output {
   display: flex;
   flex-direction: column;
@@ -354,20 +347,20 @@
   padding: 0.85rem 1rem;
   background: var(--t-surface2);
   border: 1px solid var(--t-border2);
-  border-left-width: 3px;
+  border-right-width: 3px;
   border-radius: 6px;
 }
 .dev-skill-group[data-color="blue"] {
   border-left-color: var(--t-blue);
 }
 .dev-skill-group[data-color="green"] {
-  border-left-color: var(--t-green);
+  border-right-color: var(--t-green);
 }
 .dev-skill-group[data-color="yellow"] {
   border-left-color: var(--t-yellow);
 }
 .dev-skill-group[data-color="red"] {
-  border-left-color: var(--t-red);
+  border-right-color: var(--t-red);
 }
 .dev-skill-cat {
   font-size: 0.73rem;
@@ -432,6 +425,14 @@
   gap: 0.5rem;
   font-size: 0.82rem;
   line-height: 1.7;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 1px 4px;
+  margin: 0 -4px;
+  transition: background 0.15s;
+}
+.dev-git-row:hover {
+  background: rgba(255, 255, 255, 0.03);
 }
 .dev-git-tree {
   color: var(--t-green);
@@ -653,6 +654,44 @@
   /* Prevent content underneath from showing through */
   box-shadow: 0 -12px 20px rgba(0, 0, 0, 0.35);
 }
+
+/* ── Project detail modal ── */
+.dev-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 1.5rem;
+}
+.dev-modal-content {
+  position: relative;
+  background: var(--t-surface2);
+  border: 1px solid var(--t-border2);
+  border-radius: 10px;
+  max-width: 480px;
+  width: 100%;
+  padding: 1.75rem;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+}
+.dev-modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: transparent;
+  border: none;
+  color: var(--t-dim);
+  font-family: var(--t-mono);
+  font-size: 1rem;
+  cursor: pointer;
+}
+.dev-modal-close:hover {
+  color: var(--t-red);
+}
+
 /* ── Responsive ── */
 @media (max-width: 900px) {
   .dev-root {
