@@ -3,11 +3,31 @@ import "./styles/App.css";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
-/* ─── Fluid cursor ─── */
+function useIsTouchDevice() {
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(pointer: coarse)");
+    setIsTouch(mq.matches);
+
+    const handler = (e: MediaQueryListEvent) => setIsTouch(e.matches);
+    if (mq.addEventListener) mq.addEventListener("change", handler);
+    else mq.addListener(handler);
+
+    return () => {
+      if (mq.removeEventListener) mq.removeEventListener("change", handler);
+      else mq.removeListener(handler);
+    };
+  }, []);
+
+  return isTouch;
+}
+
 function FluidCursor() {
   const outerRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
-  const glowRef  = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
 
   const glowPos = useRef({
     x: typeof window !== "undefined" ? window.innerWidth / 2 : 0,
@@ -17,18 +37,18 @@ function FluidCursor() {
     x: typeof window !== "undefined" ? window.innerWidth / 2 : 0,
     y: typeof window !== "undefined" ? window.innerHeight / 2 : 0,
   });
-  const rafId   = useRef<number>(0);
+  const rafId = useRef<number>(0);
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
       mouse.current = { x: e.clientX, y: e.clientY };
       if (outerRef.current) {
         outerRef.current.style.left = `${e.clientX}px`;
-        outerRef.current.style.top  = `${e.clientY}px`;
+        outerRef.current.style.top = `${e.clientY}px`;
       }
       if (innerRef.current) {
         innerRef.current.style.left = `${e.clientX}px`;
-        innerRef.current.style.top  = `${e.clientY}px`;
+        innerRef.current.style.top = `${e.clientY}px`;
       }
     };
 
@@ -37,7 +57,7 @@ function FluidCursor() {
       glowPos.current.y += (mouse.current.y - glowPos.current.y) * 0.05;
       if (glowRef.current) {
         glowRef.current.style.left = `${glowPos.current.x}px`;
-        glowRef.current.style.top  = `${glowPos.current.y}px`;
+        glowRef.current.style.top = `${glowPos.current.y}px`;
       }
       rafId.current = requestAnimationFrame(loop);
     };
@@ -53,47 +73,46 @@ function FluidCursor() {
 
   return (
     <>
-      <div ref={glowRef}  className="cursor-glow"  />
+      <div ref={glowRef} className="cursor-glow" />
       <div ref={outerRef} className="cursor-outer" />
       <div ref={innerRef} className="cursor-inner" />
     </>
   );
 }
 
-/* ─── Card data — each card has its own route ─── */
 const CARDS = [
   {
-    id:    "Dev-card",
-    tag:   "Code",
+    id: "Dev-card",
+    tag: "Code",
     title: "Developer",
-    desc:  "Building interactive scalable products",
-    img:   "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&q=80",
-    alt:   "Code on screen",
+    desc: "Building interactive scalable products",
+    img: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&q=80",
+    alt: "Code on screen",
     route: "/Dev-repo",
   },
   {
-    id:    "Editing-card",
-    tag:   "Visual",
+    id: "Editing-card",
+    tag: "Visual",
     title: "Editor",
-    desc:  "Crafting stories through cuts",
-    img:   "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&q=80",
-    alt:   "Video editing timeline",
+    desc: "Crafting stories through cuts",
+    img: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&q=80",
+    alt: "Video editing timeline",
     route: "/Editing-Timeline",
   },
   {
-    id:    "Design-card",
-    tag:   "Inspire",
+    id: "Design-card",
+    tag: "Inspire",
     title: "Designer",
-    desc:  "Shaping ideas into Creatives",
-    img:   "https://images.unsplash.com/photo-1618788372246-79faff0c3742?w=600&q=80",
-    alt:   "Design workspace",
+    desc: "Shaping ideas into Creatives",
+    img: "https://images.unsplash.com/photo-1618788372246-79faff0c3742?w=600&q=80",
+    alt: "Design workspace",
     route: "/Design-Board",
   },
 ];
 
-/* ─── Home view — landing + card selection ─── */
 function Home() {
   const router = useRouter();
+  const isTouch = useIsTouchDevice();
   const [showCards, setShowCards] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
@@ -130,9 +149,11 @@ function Home() {
 
   return (
     <>
-      <FluidCursor />
+      {!isTouch && <FluidCursor />}
 
-      <div className={`home-scene ${showCards ? "cards-active" : ""} ${isClosing ? "cards-closing" : ""}`}>
+      <div
+        className={`home-scene ${showCards ? "cards-active" : ""} ${isClosing ? "cards-closing" : ""}`}
+      >
         <div className={`landing-layer ${showCards ? "is-blurred" : ""}`}>
           <div className="landing-container page-enter">
             <div className="Landing-background">
@@ -159,7 +180,9 @@ function Home() {
                   onClick={() => handleCardClick(c.route)}
                   role="button"
                   tabIndex={0}
-                  onKeyDown={(e) => e.key === "Enter" && handleCardClick(c.route)}
+                  onKeyDown={(e) =>
+                    e.key === "Enter" && handleCardClick(c.route)
+                  }
                 >
                   <span className="card-tag">{c.tag}</span>
                   <div className="card-image">
