@@ -23,7 +23,7 @@ const SKILLS: {
   {
     category: "Languages",
     color: "blue",
-    items: ["HTML5", "CSS3", "JavaScript", "TypeScript", "C"],
+    items: ["HTML5", "CSS3", "JavaScript", "TypeScript", "C", "Java", "C++"],
   },
   {
     category: "Frameworks & Libraries",
@@ -31,6 +31,7 @@ const SKILLS: {
     items: [
       "React",
       "Next.js",
+      "Express.js",
       "Electron",
       "Tailwind CSS",
       "React Native",
